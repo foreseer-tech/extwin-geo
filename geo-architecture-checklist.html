@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>孪界科技官网 GEO 架构规范清单（新站开发版）</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;padding:0;font-family:'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;background:#fff;color:#2a2a2a;line-height:1.85;-webkit-font-smoothing:antialiased}
+  .doc{max-width:800px;margin:0 auto;padding:64px 24px 96px}
+  .doc-head{margin-bottom:48px;padding-bottom:32px;border-bottom:1px solid #eee}
+  .doc-kicker{font-size:12px;font-weight:600;letter-spacing:3px;color:#3b6ea5;margin-bottom:16px}
+  .doc-head h1{font-size:28px;font-weight:700;line-height:1.4;color:#0f0f0f;margin:0 0 12px;letter-spacing:-0.3px}
+  .doc-sub{font-size:15px;color:#888;margin:0}
+  .doc-meta{margin-top:20px;font-size:13px;color:#aaa;display:flex;gap:24px}
+  h2{font-size:20px;font-weight:700;color:#0f0f0f;margin:48px 0 14px;padding-left:12px;border-left:3px solid #3b6ea5}
+  h3{font-size:16px;font-weight:700;color:#1a1a1a;margin:28px 0 10px}
+  p{margin:0 0 16px;font-size:15px}
+  ul,ol{margin:8px 0 18px 20px;padding:0}
+  li{margin-bottom:10px;font-size:15px;color:#3a3a3a}
+  strong{color:#111}
+  code{background:#f4f6f8;padding:2px 6px;border-radius:4px;font-size:13px;color:#c7254e;font-family:'SF Mono',Menlo,Consolas,monospace}
+  pre{background:#1a1a2e;color:#e6e6e6;padding:18px 20px;border-radius:6px;font-size:13px;line-height:1.7;overflow-x:auto;margin:16px 0 24px}
+  pre code{background:none;color:#e6e6e6;padding:0;font-size:13px}
+  .summary{margin:0 0 48px;padding:24px 28px;background:#f7f9fb;border-radius:6px;border-left:3px solid #3b6ea5}
+  .summary p{margin:0;font-size:15px;color:#445}
+  .summary .summary-title{display:block;font-size:12px;font-weight:600;letter-spacing:2px;color:#3b6ea5;margin-bottom:10px}
+  .pill{display:inline-block;font-size:12px;font-weight:600;letter-spacing:1px;color:#3b6ea5;background:#eef3f8;padding:3px 10px;border-radius:12px;margin-bottom:10px}
+  table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:14px}
+  th,td{border:1px solid #eee;padding:12px 14px;text-align:left;vertical-align:top}
+  th{background:#f7f9fb;color:#0f0f0f;font-weight:600;white-space:nowrap}
+  td{color:#3a3a3a}
+  .redline{margin:24px 0;padding:20px 24px;background:#faf5f2;border-radius:6px;border-left:3px solid #b05a3b}
+  .redline p{margin:0;font-size:15px;color:#5a4035}
+  .redline .redline-title{display:block;font-size:12px;font-weight:600;letter-spacing:2px;color:#b05a3b;margin-bottom:10px}
+  .foot{margin-top:64px;padding-top:24px;border-top:1px solid #eee;font-size:13px;color:#aaa}
+</style>
+</head>
+<body>
+
+<div class="doc">
+
+  <div class="doc-head">
+    <div class="doc-kicker">技术落地 · 新站开发</div>
+    <h1>孪界科技官网 GEO 架构规范清单</h1>
+    <p class="doc-sub">面向官网开发团队：开发时顺手做对的 6 件事，上线后 GEO 不用补课</p>
+    <div class="doc-meta">
+      <span>孪界科技 · 官网 GEO 服务</span>
+      <span>2026 年 11 月</span>
+    </div>
+  </div>
+
+  <div class="summary">
+    <span class="summary-title">核心结论</span>
+    <p>官网能不能被搜索引擎和 AI 抓取、引用，<strong>90% 取决于开发阶段的结构设计</strong>——URL、标题、结构化数据、渲染方式。这 6 件事在开发时做对几乎零成本，上线后补则要返工。目标：让客户搜索「具身智能训练 / 仿真资产 / simready」等词时，AI 命中的是孪界官网，而非竞品或二手信息。</p>
+  </div>
+
+  <h2>一、品牌词与标题规范（最容易被忽略，先定）</h2>
+  <p>AI 判断「这个网站是不是这家公司的官网」靠的是<strong>域名、title、正文里的一致性</strong>。名称不统一，AI 会把它当成几个不相关的主体，引用权重被稀释。</p>
+  <table>
+    <tr><th style="width:30%">项</th><th>规范</th></tr>
+    <tr><td>公司名</td><td>全站统一用「孪界科技」，不要「孪界」「北京孪界科技」混用</td></tr>
+    <tr><td>首页 title</td><td><code>孪界科技 · 具身智能仿真资产与场景平台</code>（品牌 + 核心品类词，不要只写公司名）</td></tr>
+    <tr><td>子页 title</td><td>格式统一为 <code>页面主题 | 孪界科技</code>，每个页面不同、含该页关键词</td></tr>
+    <tr><td>产品命名</td><td>主推「Synthesis 仿真资产与场景平台」，中英文对应关系固定，别一页写 Synthesis、一页写「灵境」</td></tr>
+    <tr><td>域名关联</td><td>若沿用 extwin.com，首页正文与页脚务必明示「孪界科技」（<code>孪界科技 · www.extwin.com</code>），让 AI 建立域名与品牌名的关联</td></tr>
+  </table>
+
+  <h2>二、URL 规范</h2>
+  <ul>
+    <li><strong>语义化</strong>：<code>/products/synthesis</code>、<code>/solutions/robotics</code>、<code>/blog/simready-open-source-assets</code>，不用 <code>?id=123</code> 或纯数字；</li>
+    <li><strong>层级清晰</strong>：产品、解决方案、案例、博客、关于、联系各自一个顶层目录；</li>
+    <li><strong>小写 + 连字符</strong>：英文 slug 小写，多词用 <code>-</code>，中文用拼音或英文；</li>
+    <li><strong>全站 HTTPS</strong> + 每页唯一 <code>canonical</code>，避免同一内容多 URL。</li>
+  </ul>
+
+  <h2>三、结构化数据（JSON-LD）——让 AI 能「读」懂每一页</h2>
+  <p>每个页面类型都要埋对应的 JSON-LD。其中 <strong>FAQPage 对 AI 引用的价值最大</strong>，务必做。</p>
+  <table>
+    <tr><th style="width:26%">页面类型</th><th>JSON-LD 类型</th><th>关键字段</th></tr>
+    <tr><td>首页</td><td><code>Organization</code></td><td>name、url、logo、sameAs（公众号 / 各平台主页）</td></tr>
+    <tr><td>产品页</td><td><code>Product</code> / <code>Service</code></td><td>name（Synthesis）、brand（孪界科技）、description、offers</td></tr>
+    <tr><td>博客 / 文章</td><td><code>BlogPosting</code></td><td>headline、datePublished、author、about</td></tr>
+    <tr><td>FAQ 页</td><td><code>FAQPage</code></td><td>question / answer 逐条结构化（AI 优先取用）</td></tr>
+    <tr><td>全站</td><td><code>BreadcrumbList</code></td><td>面包屑，帮 AI 理解栏目层级</td></tr>
+  </table>
+
+  <p>Organization 示例（首页 <code>&lt;head&gt;</code> 内）：</p>
+  <pre><code>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "孪界科技",
+  "url": "https://www.extwin.com",
+  "logo": "https://www.extwin.com/logo.png",
+  "sameAs": ["公众号链接", "其他官方主页"]
+}
+&lt;/script&gt;</code></pre>
+
+  <h2>四、栏目结构与内链（面向关键词 + 获客线索）</h2>
+  <p>栏目本身要覆盖客户搜索词的落点，且博客是 GEO 内容的主阵地：</p>
+  <table>
+    <tr><th style="width:24%">栏目</th><th>作用</th></tr>
+    <tr><td>首页</td><td>一句话说清「孪界科技做什么」+ 主推 Synthesis</td></tr>
+    <tr><td>产品 / Synthesis</td><td>主推产品页，覆盖「仿真资产」「SimReady 资产」等核心词</td></tr>
+    <tr><td>解决方案</td><td>按行业 / 场景落关键词（具身智能训练、机器人训练、仿真训练场）</td></tr>
+    <tr><td>案例</td><td>可公开讲的项目，给 AI 提供「这家公司服务过谁」的实证</td></tr>
+    <tr><td>博客</td><td>持续产出 GEO 内容（怎么选供应商、SimReady 是什么、仿真资产怎么做）</td></tr>
+    <tr><td>FAQ</td><td>决策型问答，配 FAQPage 结构化</td></tr>
+    <tr><td>联系 / 获客线索</td><td>每个页面埋线索入口，接「获客线索」目标</td></tr>
+  </table>
+  <ul>
+    <li><strong>内链</strong>：产品页 ↔ 博客文章互链，相关文章互相推荐；锚文本用关键词，不用「点击这里」；</li>
+    <li><strong>获客线索钩子</strong>：产品页、博客文末统一放「预约演示 / 获取手册 / 联系我们」，让「被 AI 提到 → 进官网 → 留下线索」链路闭合。</li>
+  </ul>
+
+  <h2>五、可抓取性（关键：让 AI 抓得到真实 HTML）</h2>
+  <div class="redline">
+    <span class="redline-title">最关键的一条，建议务必满足</span>
+    <p><strong>如果新站是 React / Vue 单页应用（SPA），务必做服务端渲染（SSR）或静态生成（SSG）预渲染。</strong>搜索引擎和 AI 抓取的是渲染后的 HTML——SPA 若不预渲染，抓到的只是空壳（加载脚本前的空 <code>div</code>），内容、标题、结构化数据全部丢失，前面所有工作归零。这是 GEO 的关键，不宜等上线后再说。</p>
+  </div>
+  <ul>
+    <li><strong>每个页面独立的 <code>meta description</code></strong>：一句话摘要，覆盖该页关键词；</li>
+    <li><strong>移动端适配</strong>：务必有 <code>viewport</code> 声明，响应式布局；</li>
+    <li><strong><code>sitemap.xml</code> + <code>robots.txt</code></strong>：列出全部可索引页面，明确放行路径；</li>
+    <li><strong>404 / 301 规范</strong>：失效链接做 301 重定向，不留死链。</li>
+  </ul>
+
+  <h2>六、三条上线前自检项（建议上线前满足，不宜后补）</h2>
+  <div class="redline">
+    <span class="redline-title">上线前自检</span>
+    <p>① 用「查看网页源代码」能看到每一页的完整正文、title、结构化数据（不是只有 JS 脚本）；② 每个页面 title / description 唯一且含关键词；③ 首页 + 产品页 + FAQ 页的 JSON-LD 已埋、字段完整。三条有一条未满足，建议改完再上线。</p>
+  </div>
+
+  <div class="foot">
+    本文档用于新站开发阶段的 GEO 架构对齐，不涉及费用。核心一句话：把品牌词、URL、结构化数据、渲染方式在开发时做对，上线后内容与监测就能直接铺，不用返工。
+  </div>
+
+</div>
+</body>
+</html>
